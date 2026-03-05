@@ -122,9 +122,9 @@ services:
       context: ./minibanklab_fe
       dockerfile: Dockerfile
       args:
-        USER_API_URL: "http://user-service:8081"
-        ACCOUNT_API_URL: "http://account-service:8082"
-        TRANSACTION_API_URL: "http://transaction-service:8083"
+        NEXT_PUBLIC_USER_API_URL: "http://user-service:8081"
+        NEXT_PUBLIC_ACCOUNT_API_URL: "http://account-service:8082"
+        NEXT_PUBLIC_TRANSACTION_API_URL: "http://transaction-service:8083"
     container_name: minibank-frontend
     ports:
       - "3000:3000"

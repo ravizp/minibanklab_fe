@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
-const userApiUrl = process.env.USER_API_URL || 'http://localhost:8081';
-const accountApiUrl = process.env.ACCOUNT_API_URL || 'http://localhost:8082';
-const transactionApiUrl = process.env.TRANSACTION_API_URL || 'http://localhost:8083';
+const userApiUrl = process.env.NEXT_PUBLIC_USER_API_URL || 'http://localhost:8081';
+const accountApiUrl = process.env.NEXT_PUBLIC_ACCOUNT_API_URL || 'http://localhost:8082';
+const transactionApiUrl = process.env.NEXT_PUBLIC_TRANSACTION_API_URL || 'http://localhost:8083';
 
 const nextConfig: NextConfig = {
   output: 'standalone',
