@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Wallet, ArrowRight } from 'lucide-react';
 import type { Account } from '@/types/account';
-import { formatCurrency, formatAccountNumber, capitalize } from '@/utils/format';
+import { formatCurrency, formatAccountNumber } from '@/utils/format';
 
 interface AccountCardProps {
   account: Account;
@@ -18,22 +18,15 @@ export function AccountCard({ account }: AccountCardProps) {
             <Wallet className="h-5 w-5 text-blue-600" />
           </div>
           <div>
-            <p className="text-sm font-medium text-slate-900">{capitalize(account.account_type)} Account</p>
+            <p className="text-sm font-medium text-slate-900">Bank Account</p>
             <p className="text-xs text-slate-500 font-mono">{formatAccountNumber(account.account_number)}</p>
           </div>
         </div>
-        <span
-          className={`px-2.5 py-1 rounded-full text-xs font-medium ${
-            account.status === 'active' ? 'bg-green-50 text-green-700' : 'bg-slate-100 text-slate-600'
-          }`}
-        >
-          {capitalize(account.status)}
-        </span>
       </div>
 
       <div className="mb-4">
         <p className="text-sm text-slate-500">Balance</p>
-        <p className="text-2xl font-bold text-slate-900">{formatCurrency(account.balance, account.currency)}</p>
+        <p className="text-2xl font-bold text-slate-900">{formatCurrency(account.balance)}</p>
       </div>
 
       <div className="flex gap-2">

@@ -1,36 +1,33 @@
 'use client';
 
-import { ArrowDownLeft, ArrowUpRight, ArrowDownCircle } from 'lucide-react';
+import { ArrowDownLeft, ArrowUpRight } from 'lucide-react';
 import type { Transaction } from '@/types/transaction';
-import { formatCurrency, formatDate, capitalize } from '@/utils/format';
+import { formatCurrency, formatDate } from '@/utils/format';
 
 interface TransactionListProps {
   transactions: Transaction[];
 }
 
 function getTransactionIcon(type: string) {
-  switch (type.toLowerCase()) {
-    case 'topup':
+  switch (type.toUpperCase()) {
+    case 'TOPUP':
       return <ArrowDownLeft className="h-5 w-5 text-green-600" />;
-    case 'transfer_in':
-      return <ArrowDownCircle className="h-5 w-5 text-green-600" />;
-    case 'transfer_out':
-      return <ArrowUpRight className="h-5 w-5 text-red-600" />;
+    case 'TRANSFER':
+      return <ArrowUpRight className="h-5 w-5 text-blue-600" />;
     default:
       return <ArrowUpRight className="h-5 w-5 text-slate-400" />;
   }
 }
 
-function getAmountColor(type: string) {
-  if (['topup', 'transfer_in'].includes(type.toLowerCase())) return 'text-green-600';
-  if (['transfer_out'].includes(type.toLowerCase())) return 'text-red-600';
-  return 'text-slate-900';
-}
-
-function getAmountPrefix(type: string) {
-  if (['topup', 'transfer_in'].includes(type.toLowerCase())) return '+';
-  if (['transfer_out'].includes(type.toLowerCase())) return '-';
-  return '';
+function getTransactionLabel(type: string) {
+  switch (type.toUpperCase()) {
+    case 'TOPUP':
+      return 'Top Up';
+    case 'TRANSFER':
+      return 'Transfer';
+    default:
+      return type;
+  }
 }
 
 export function TransactionList({ transactions }: TransactionListProps) {
@@ -53,13 +50,14 @@ export function TransactionList({ transactions }: TransactionListProps) {
             {getTransactionIcon(tx.type)}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-slate-900">{capitalize(tx.type.replace('_', ' '))}</p>
-            <p className="text-xs text-slate-500 truncate">{tx.description || tx.reference}</p>
+            <p className="text-sm font-medium text-slate-900">{getTransactionLabel(tx.type)}</p>
+            <p className="text-xs text-slate-500 truncate">
+              {tx.description || `To ${tx.to_account_number}`}
+            </p>
           </div>
           <div className="text-right flex-shrink-0">
-            <p className={`text-sm font-semibold ${getAmountColor(tx.type)}`}>
-              {getAmountPrefix(tx.type)}
-              {formatCurrency(tx.amount, tx.currency)}
+            <p className={`text-sm font-semibold ${tx.status === 'SUCCESS' ? 'text-slate-900' : 'text-red-500'}`}>
+              {formatCurrency(tx.amount)}
             </p>
             <p className="text-xs text-slate-400">{formatDate(tx.created_at)}</p>
           </div>

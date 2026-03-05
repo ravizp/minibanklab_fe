@@ -10,15 +10,15 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/api/user/:path*',
-        destination: `${userApiUrl}/:path*`,
+        destination: `${userApiUrl}/api/v1/:path*`,
       },
       {
         source: '/api/account/:path*',
-        destination: `${accountApiUrl}/:path*`,
+        destination: `${accountApiUrl}/api/v1/:path*`,
       },
       {
         source: '/api/transaction/:path*',
-        destination: `${transactionApiUrl}/:path*`,
+        destination: `${transactionApiUrl}/api/v1/:path*`,
       },
     ];
   },

@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/Card';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { useProfileDetail } from '@/features/auth/hooks/useProfile';
 import { formatDate } from '@/utils/format';
-import { User, Mail, Calendar, Wallet } from 'lucide-react';
+import { User, Mail, Calendar, Clock } from 'lucide-react';
 
 export default function ProfilePage() {
   const { data: profile, isLoading, error } = useProfileDetail();
@@ -58,7 +58,7 @@ export default function ProfilePage() {
           <ProfileField icon={<User className="h-5 w-5" />} label="Full Name" value={profile.name} />
           <ProfileField icon={<Mail className="h-5 w-5" />} label="Email Address" value={profile.email} />
           <ProfileField icon={<Calendar className="h-5 w-5" />} label="Member Since" value={formatDate(profile.created_at)} />
-          <ProfileField icon={<Wallet className="h-5 w-5" />} label="Total Accounts" value={String(profile.accounts_count ?? 0)} />
+          <ProfileField icon={<Clock className="h-5 w-5" />} label="Member For" value={`${profile.member_since_days ?? 0} days`} />
         </div>
       </Card>
     </div>

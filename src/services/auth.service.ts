@@ -1,14 +1,14 @@
 import { userApi } from './api';
-import type { LoginRequest, RegisterRequest, AuthResponse, User, UserDetail } from '@/types/auth';
+import type { LoginRequest, RegisterRequest, LoginResponse, User, ProfileDetailResponse } from '@/types/auth';
 
 export const authService = {
-  async login(data: LoginRequest): Promise<AuthResponse> {
-    const response = await userApi.post<AuthResponse>('/auth/login', data);
+  async login(data: LoginRequest): Promise<LoginResponse> {
+    const response = await userApi.post<LoginResponse>('/auth/login', data);
     return response.data;
   },
 
-  async register(data: RegisterRequest): Promise<AuthResponse> {
-    const response = await userApi.post<AuthResponse>('/auth/register', data);
+  async register(data: RegisterRequest): Promise<User> {
+    const response = await userApi.post<User>('/auth/register', data);
     return response.data;
   },
 
@@ -17,8 +17,8 @@ export const authService = {
     return response.data;
   },
 
-  async getProfileDetail(): Promise<UserDetail> {
-    const response = await userApi.get<UserDetail>('/auth/profile/detail');
+  async getProfileDetail(): Promise<ProfileDetailResponse> {
+    const response = await userApi.get<ProfileDetailResponse>('/auth/profile/detail');
     return response.data;
   },
 };

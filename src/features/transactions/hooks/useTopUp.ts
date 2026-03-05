@@ -10,10 +10,8 @@ export function useTopUp() {
 
   return useMutation({
     mutationFn: (data: TopUpRequest) => transactionService.topUp(data),
-    onSuccess: (_data, variables) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.accounts });
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.balance(variables.account_id) });
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.transactions(variables.account_id) });
       toast.success('Top up successful!');
     },
     onError: (error: ApiError) => {

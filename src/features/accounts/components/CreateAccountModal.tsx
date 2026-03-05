@@ -1,11 +1,9 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
 import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
-import { Select } from '@/components/ui/Select';
 import { useCreateAccount } from '../hooks/useCreateAccount';
-import { ACCOUNT_TYPES, CURRENCIES } from '@/utils/constants';
+import { Wallet } from 'lucide-react';
 
 interface CreateAccountModalProps {
   isOpen: boolean;
@@ -13,48 +11,32 @@ interface CreateAccountModalProps {
 }
 
 export function CreateAccountModal({ isOpen, onClose }: CreateAccountModalProps) {
-  const [accountType, setAccountType] = useState('savings');
-  const [currency, setCurrency] = useState('IDR');
   const createMutation = useCreateAccount();
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    createMutation.mutate(
-      { account_type: accountType, currency },
-      {
-        onSuccess: () => {
-          onClose();
-          setAccountType('savings');
-          setCurrency('IDR');
-        },
-      }
-    );
+  const handleCreate = () => {
+    createMutation.mutate(undefined, {
+      onSuccess: () => onClose(),
+    });
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Create New Account">
-      <form onSubmit={handleSubmit} className="space-y-5">
-        <Select
-          label="Account Type"
-          options={ACCOUNT_TYPES}
-          value={accountType}
-          onChange={(e) => setAccountType(e.target.value)}
-        />
-        <Select
-          label="Currency"
-          options={CURRENCIES}
-          value={currency}
-          onChange={(e) => setCurrency(e.target.value)}
-        />
-        <div className="flex gap-3 pt-2">
+      <div className="text-center py-4">
+        <div className="h-16 w-16 rounded-2xl bg-blue-50 flex items-center justify-center mx-auto mb-4">
+          <Wallet className="h-8 w-8 text-blue-600" />
+        </div>
+        <p className="text-slate-600 mb-6">
+          A new bank account will be created with a unique account number and zero balance.
+        </p>
+        <div className="flex gap-3">
           <Button type="button" variant="secondary" className="flex-1" onClick={onClose}>
             Cancel
           </Button>
-          <Button type="submit" className="flex-1" isLoading={createMutation.isPending}>
+          <Button className="flex-1" onClick={handleCreate} isLoading={createMutation.isPending}>
             Create Account
           </Button>
         </div>
-      </form>
+      </div>
     </Modal>
   );
 }

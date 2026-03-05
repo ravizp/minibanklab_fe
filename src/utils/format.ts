@@ -1,10 +1,10 @@
-export function formatCurrency(amount: number, currency = 'IDR'): string {
-  return new Intl.NumberFormat('id-ID', {
-    style: 'currency',
-    currency,
-    minimumFractionDigits: 0,
+export function formatCurrency(amount: number | string): string {
+  const num = typeof amount === 'string' ? parseFloat(amount) : amount;
+  const formatted = new Intl.NumberFormat('id-ID', {
+    minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).format(amount);
+  }).format(num || 0);
+  return `Rp. ${formatted}`;
 }
 
 export function formatDate(dateString: string): string {

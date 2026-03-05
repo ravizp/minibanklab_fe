@@ -1,13 +1,3 @@
-export const ACCOUNT_TYPES = [
-  { value: 'savings', label: 'Savings' },
-  { value: 'checking', label: 'Checking' },
-] as const;
-
-export const CURRENCIES = [
-  { value: 'IDR', label: 'IDR - Indonesian Rupiah' },
-  { value: 'USD', label: 'USD - US Dollar' },
-] as const;
-
 export const QUERY_KEYS = {
   profile: ['profile'] as const,
   profileDetail: ['profile', 'detail'] as const,

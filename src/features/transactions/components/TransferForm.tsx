@@ -15,14 +15,13 @@ interface TransferFormProps {
 
 export function TransferForm({ accounts, onSuccess }: TransferFormProps) {
   const [fromAccountId, setFromAccountId] = useState('');
-  const [toAccountId, setToAccountId] = useState('');
+  const [toAccountNumber, setToAccountNumber] = useState('');
   const [amount, setAmount] = useState('');
-  const [description, setDescription] = useState('');
   const transferMutation = useTransfer();
 
   const accountOptions = accounts.map((a) => ({
     value: a.id,
-    label: `${formatAccountNumber(a.account_number)} (${a.currency})`,
+    label: formatAccountNumber(a.account_number),
   }));
 
   const handleSubmit = (e: FormEvent) => {
@@ -30,15 +29,13 @@ export function TransferForm({ accounts, onSuccess }: TransferFormProps) {
     transferMutation.mutate(
       {
         from_account_id: fromAccountId,
-        to_account_id: toAccountId,
-        amount: parseFloat(amount),
-        description: description || undefined,
+        to_account_number: toAccountNumber,
+        amount,
       },
       {
         onSuccess: () => {
           setAmount('');
-          setDescription('');
-          setToAccountId('');
+          setToAccountNumber('');
           onSuccess?.();
         },
       }
@@ -56,29 +53,21 @@ export function TransferForm({ accounts, onSuccess }: TransferFormProps) {
         required
       />
       <Input
-        label="To Account ID"
+        label="To Account Number"
         type="text"
-        placeholder="Destination account ID"
-        value={toAccountId}
-        onChange={(e) => setToAccountId(e.target.value)}
+        placeholder="Destination account number"
+        value={toAccountNumber}
+        onChange={(e) => setToAccountNumber(e.target.value)}
         required
       />
       <Input
         label="Amount"
-        type="number"
-        placeholder="0"
+        type="text"
+        inputMode="decimal"
+        placeholder="e.g. 50000"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
-        min="1"
-        step="any"
         required
-      />
-      <Input
-        label="Description (optional)"
-        type="text"
-        placeholder="e.g., Rent payment"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
       />
       <Button type="submit" className="w-full" size="lg" isLoading={transferMutation.isPending}>
         Send Transfer

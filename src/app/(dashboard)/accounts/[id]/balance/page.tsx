@@ -40,9 +40,11 @@ export default function BalancePage({ params }: { params: Promise<{ id: string }
       <Card className="text-center py-8">
         <p className="text-sm text-slate-500 mb-2">Available Balance</p>
         <p className="text-4xl font-bold text-slate-900">
-          {balance ? formatCurrency(balance.balance, balance.currency) : '—'}
+          {balance ? formatCurrency(balance.balance) : '—'}
         </p>
-        <p className="text-sm text-slate-400 mt-2">{balance?.currency}</p>
+        <p className="text-sm text-slate-400 mt-2">
+          {balance ? formatAccountNumber(balance.account_number) : ''}
+        </p>
 
         <Button
           variant="ghost"

@@ -17,8 +17,8 @@ export default function DashboardPage() {
   const { data: profile } = useProfile();
   const [showCreateModal, setShowCreateModal] = useState(false);
 
-  const totalBalance = accounts?.reduce((sum, acc) => sum + acc.balance, 0) ?? 0;
-  const activeAccounts = accounts?.filter((a) => a.status === 'active').length ?? 0;
+  const totalBalance = accounts?.reduce((sum, acc) => sum + Number(acc.balance), 0) ?? 0;
+  const totalAccounts = accounts?.length ?? 0;
 
   return (
     <div className="space-y-6">
@@ -52,8 +52,8 @@ export default function DashboardPage() {
               <TrendingUp className="h-5 w-5 text-green-600" />
             </div>
           </div>
-          <p className="text-slate-500 text-sm">Active Accounts</p>
-          <p className="text-3xl font-bold text-slate-900 mt-1">{activeAccounts}</p>
+          <p className="text-slate-500 text-sm">Total Accounts</p>
+          <p className="text-3xl font-bold text-slate-900 mt-1">{totalAccounts}</p>
         </Card>
 
         <Card>

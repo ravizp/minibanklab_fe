@@ -17,11 +17,16 @@ export interface User {
   updated_at: string;
 }
 
-export interface AuthResponse {
+export interface LoginResponse {
   token: string;
   user: User;
 }
 
-export interface UserDetail extends User {
-  accounts_count: number;
+export interface ProfileDetailResponse {
+  id: string;
+  name: string;
+  email: string;
+  created_at: string;
+  updated_at: string;
+  member_since_days: number;
 }

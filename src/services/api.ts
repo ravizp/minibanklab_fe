@@ -44,7 +44,22 @@ function handleResponseSuccess(response: import('axios').AxiosResponse) {
   return response;
 }
 
-function handleResponseError(error: AxiosError<ApiError>) {
+function normalizeApiError(data: unknown, fallbackMessage: string): ApiError {
+  if (data && typeof data === 'object') {
+    const obj = data as Record<string, unknown>;
+    // Backend format: { "error": "readable message" }
+    if (typeof obj.error === 'string') {
+      return { error: obj.error, message: obj.error };
+    }
+    // Alternative format: { "error": "CODE", "message": "readable" }
+    if (typeof obj.message === 'string') {
+      return { error: String(obj.error ?? 'ERROR'), message: obj.message };
+    }
+  }
+  return { error: 'NETWORK_ERROR', message: fallbackMessage };
+}
+
+function handleResponseError(error: AxiosError) {
   const config = error.config as (InternalAxiosRequestConfig & { metadata?: { startTime: number } }) | undefined;
   const duration = config?.metadata ? Date.now() - config.metadata.startTime : undefined;
   const status = error.response?.status;
@@ -54,20 +69,19 @@ function handleResponseError(error: AxiosError<ApiError>) {
   logger.request(method, url, status, duration);
 
   if (status === 401) {
-    storage.removeToken();
-    if (typeof window !== 'undefined') {
-      window.location.href = '/login';
+    const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
+    if (currentPath !== '/login' && currentPath !== '/register') {
+      storage.removeToken();
+      if (typeof window !== 'undefined') {
+        window.location.href = '/login';
+      }
     }
   }
 
-  const responseData = error.response?.data;
-  const apiError: ApiError =
-    responseData && typeof responseData === 'object' && 'message' in responseData
-      ? responseData
-      : {
-          error: 'NETWORK_ERROR',
-          message: error.message || 'An unexpected error occurred',
-        };
+  const apiError = normalizeApiError(
+    error.response?.data,
+    error.message || 'An unexpected error occurred',
+  );
 
   return Promise.reject(apiError);
 }

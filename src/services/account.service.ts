@@ -1,5 +1,5 @@
 import { accountApi } from './api';
-import type { Account, CreateAccountRequest, BalanceResponse } from '@/types/account';
+import type { Account, BalanceResponse } from '@/types/account';
 
 export const accountService = {
   async getAccounts(): Promise<Account[]> {
@@ -7,8 +7,8 @@ export const accountService = {
     return response.data;
   },
 
-  async createAccount(data: CreateAccountRequest): Promise<Account> {
-    const response = await accountApi.post<Account>('/accounts', data);
+  async createAccount(): Promise<Account> {
+    const response = await accountApi.post<Account>('/accounts');
     return response.data;
   },
 

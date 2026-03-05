@@ -2,12 +2,12 @@
 
 import { use } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Wallet, Clock, Hash, DollarSign } from 'lucide-react';
+import { ArrowLeft, Wallet, Clock, Hash } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { useAccountDetail } from '@/features/accounts/hooks/useAccountDetail';
-import { formatCurrency, formatDate, formatAccountNumber, capitalize } from '@/utils/format';
+import { formatCurrency, formatDate, formatAccountNumber } from '@/utils/format';
 
 export default function AccountDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -56,24 +56,19 @@ export default function AccountDetailPage({ params }: { params: Promise<{ id: st
             <Wallet className="h-6 w-6 text-white" />
           </div>
           <div>
-            <p className="text-blue-100 text-sm">{capitalize(account.account_type)} Account</p>
+            <p className="text-blue-100 text-sm">Bank Account</p>
             <p className="text-white font-mono">{formatAccountNumber(account.account_number)}</p>
           </div>
         </div>
         <p className="text-blue-100 text-sm">Current Balance</p>
-        <p className="text-4xl font-bold text-white mt-1">{formatCurrency(account.balance, account.currency)}</p>
+        <p className="text-4xl font-bold text-white mt-1">{formatCurrency(account.balance)}</p>
       </Card>
 
       <Card>
         <h3 className="text-lg font-semibold text-slate-900 mb-4">Account Information</h3>
         <div className="space-y-3">
           <InfoRow icon={<Hash className="h-4 w-4" />} label="Account ID" value={account.id} />
-          <InfoRow icon={<DollarSign className="h-4 w-4" />} label="Currency" value={account.currency} />
-          <InfoRow
-            icon={<div className={`h-2.5 w-2.5 rounded-full ${account.status === 'active' ? 'bg-green-500' : 'bg-slate-400'}`} />}
-            label="Status"
-            value={capitalize(account.status)}
-          />
+          <InfoRow icon={<Hash className="h-4 w-4" />} label="Account Number" value={account.account_number} />
           <InfoRow icon={<Clock className="h-4 w-4" />} label="Created" value={formatDate(account.created_at)} />
         </div>
       </Card>

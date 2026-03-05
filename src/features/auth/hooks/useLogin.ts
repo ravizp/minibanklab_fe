@@ -14,7 +14,7 @@ export function useLogin() {
     mutationFn: (data: LoginRequest) => authService.login(data),
     onSuccess: (response) => {
       login(response.token);
-      toast.success('Welcome back!');
+      toast.success(`Welcome back, ${response.user.name}!`);
       router.push('/dashboard');
     },
     onError: (error: ApiError) => {
