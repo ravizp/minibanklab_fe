@@ -6,12 +6,12 @@ import { useEffect } from 'react';
 export default function DatadogInit() {
   useEffect(() => {
     datadogRum.init({
-      applicationId: 'KODE-APP-ID-KAMU', // Ganti dengan ID dari dashboard Datadog
-      clientToken: 'KODE-CLIENT-TOKEN-KAMU', // Ganti dengan Token dari dashboard Datadog
+      applicationId: '23e51808-c607-4759-89cd-8c228ef54edf', // Ganti dengan ID dari dashboard Datadog
+      clientToken: 'pub503c894a2f5e9f1ac113339078a9dc2c', // Ganti dengan Token dari dashboard Datadog
       site: 'datadoghq.com',
-      service: 'minibank-frontend',
+      service: 'minibank',
       env: 'development',
-      version: '1.0.0',
+      version: 'v1',
       sessionSampleRate: 100,
       sessionReplaySampleRate: 20,
       trackUserInteractions: true,
